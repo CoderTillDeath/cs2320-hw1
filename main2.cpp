@@ -10,6 +10,11 @@ struct emailNode {
     emailNode *next;
 };
 
+void printEmail(emailNode * node)
+{
+	cout << node->name << "\t" << node->subject << "\t" << node->body << endl;
+}
+
 struct emailList {
     emailNode *first;
     emailNode *last;
@@ -112,8 +117,7 @@ void insert(fileList * list, emailList * l)
 
 void insert(emailList * list, string name, string subject, string body)
 {
-    emailNode *n;
-    n = new emailNode;
+    emailNode *n = new emailNode;
     
     n->name = name;
     n->subject = subject;
@@ -122,35 +126,35 @@ void insert(emailList * list, string name, string subject, string body)
 
     if(list->first == NULL)
     {
-	list->first = n;
+		list->first = n;
         list->last = n;
     }
     else
     {
-	if(!contains(list, n))
-	{
-	    if(contains(subject,"(Cancelled)"))
-   	    {
-                emailNode * remNode = new emailNode;
-	        remNode->name = name;
-	        remNode->subject = before(subject, "(Cancelled)");
-	        remNode->body = body;             
+		if(!contains(list, n))
+		{
+			if(contains(subject,"(Cancelled)"))
+			{
+				emailNode * remNode = new emailNode;
+				remNode->name = name;
+				remNode->subject = before(subject, "(Cancelled)");
+				remNode->body = body;             
 
-	        remove(list, remNode);
+				remove(list, remNode);
     	    }
-	    else {
-		if(subject.compare("Purchase-order-cancellation") == 0) {
-		    emailNode * remNode = new emailNode;
-		    remNode->name = "G:#wild#";
-		    remNode->subject = "G:#wild#";
-		    remNode->body = body;
+			else {
+				if(subject.compare("Purchase-order-cancellation") == 0) {
+					emailNode * remNode = new emailNode;
+					remNode->name = "G:#wild#";
+					remNode->subject = "G:#wild#";
+					remNode->body = body;
 		    
-		    removeAll(list,remNode);
-	    	}
-	        list->last->next = n;
-                list->last = n;
-	    }
-	}
+					removeAll(list,remNode);
+				}
+				list->last->next = n;
+				list->last = n;
+			}
+		}
     }
 }
 
@@ -158,7 +162,7 @@ void printList(emailList * list)
 {
     emailNode * current = list->first;
     while(current) {
-        cout << current->name << " " << current->subject << " " << current->body << endl;
+        cout << current->name << "\t" << current->subject << "\t" << current->body << endl;
 	current = current->next;
     }
 }
@@ -193,30 +197,33 @@ void addAllLike(emailList * list, emailNode * node)
     string name = current->name;
     string subject = current->subject;
 
-    string ALL = name + "\t" + subject + "\t" + current->body;
+    string ALL = current->body;
     prev = current;
     current = current->next;
     
-    while(current) {
-	if(current->name.compare(name) == 0 && current->subject.compare(subject) == 0)
-        {
-	    ALL += ", " + current->body;
-            prev->next = current->next;
+	while(current) {
+		if(current->name.compare(name) == 0 && current->subject.compare(subject) == 0)
+		{
+			ALL += ", " + current->body;
+			prev->next = current->next;
         }
         else {
-	    prev = current;
-	}        
+			prev = current;
+		}        
         current = current->next;
     }
+    
     insert(list,name,subject,ALL);
 }
 
-emailList *getGrouped (emailList * list)
+emailList * getGrouped (emailList * list)
 {
     emailList * newlist = new emailList;
+    newlist->first = NULL;
+    newlist->last = NULL;
     emailNode * current = list->first;
     while(current) {
-	addAllLike(newlist,current);
+		addAllLike(newlist,current);
         current = current->next;
     }
 
@@ -227,48 +234,84 @@ void printGrouped(emailList * list)
 {
     emailNode * current = list->first;
     while(current) {
-	printAllLike(current);
-	current = current->next;
+		printAllLike(current);
+		current = current->next;
     }
+}
+
+void interleavePrint(fileList * l, int size)
+{
+	emailList * finalList = new emailList;
+	finalList->first = NULL;
+	finalList->last = NULL;
+	
+	emailNode ** list = new emailNode*[size];
+	
+	emailList * current = l->first;
+	
+	for(int i = 0;current;i++) {
+		list[i] = current->first;
+		current = current->next;
+	}
+	
+	bool repeat = false;
+	
+	do
+	{
+		for(int i = 0; i < size; i++)
+		{
+			if(list[i])
+			{
+				repeat = false;
+				insert(finalList,list[i]->name,list[i]->subject,list[i]->body);
+				list[i] = list[i]->next;
+			}
+		}
+	}
+	while(repeat);
 }
 
 int main(int argc, const char * argv[])
 {
     string input = argv[1];
-    input = input.substr(6, input.length() - 6);
+    input = input.substr(6, input.length() - 12);
 
     fileList * f = new fileList;
+    f->first = NULL;
+    f->last = NULL;
 
     int i = 1;
 
- //   for(;true; i++)
-   // {
-	ifstream file (input + "." + to_string(i) + ".txt");
-	string line = "";
+    for(;true; i++)
+    {
+		ifstream file (input + "." + to_string(i) + ".txt");
+		string line = "";
 
-//        if(!file.is_open()) break;
+        if(!file.is_open()) break;
 
-	emailList *e;
-	e = new emailList;
+		emailList *e;
+		e = new emailList;
 
-	e->first = NULL;
-	e->last = NULL;
+		e->first = NULL;
+		e->last = NULL;
 
-	while(getline(file, line))
-	{
-	    if(line.length() != 0 && line.at(0) != '#')
-	    {
-		string name = before(line,"\t");
-		string subject = before(after(line,"\t"), "\t");
-		string body = after(after(line, "\t"),"\t");
-		insert(e, name, subject, body);
-	    }
-	}
+		while(getline(file, line))
+		{
+			if(line.length() != 0 && line.at(0) != '#')
+			{
+				string name = before(line,"\t");
+				string subject = before(after(line,"\t"), "\t");
+				string body = after(after(line, "\t"),"\t");
+				insert(e, name, subject, body);
+			}
+		}
         
         emailList * list = getGrouped(e);
     
-	printList(list);
-//    }
+		insert(f,list);
+    }
+    
+    interleavePrint(f,i - 1);
 }
 
 
