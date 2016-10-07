@@ -1,0 +1,30 @@
+P1	A	0-0000, 0-0001
+Marie	ice-cream	strawberry
+Coulson	resurrection	movie
+P1	B	0-0010
+Linda	ice-cream	chocolate
+May	fight	mission
+P2	A	0-0100
+Chris	ice-cream	vanilla
+Ward	role	traitor
+P2	B	0-1000, 0-1001
+Marie	ice-cream-cancellation	strawberry
+Quake	agent	earthquake
+P3	C	0-1010
+Sara	milk-shake	vanilla
+Fitz	specialty	technology
+P4	C	0-1100, 0-1101
+Meriem	ice-cream	lemon
+Jemma	specialty	biochemistry
+P5	A	0-1110, 0-1111, 1-0001, 1-0010
+Ayoub	milk-shake	chocolate
+Hunter	agent	mercenary
+P5	B	1-0000
+Younes	soft-cookies	vanilla
+Bobbi	agent	undercover
+P5	C	1-0010
+Sophie	sweeties	sweeties
+Mack	new	director
+Lisa	milk-shake	strawberry
+Ayoub	milk-shake-cancellation	vanilla
+Cristos	sweeties-cancellation	sweeties

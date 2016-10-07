@@ -101,20 +101,23 @@ void remove(emailList * list, emailNode * n)
 {
     emailNode * previous = list->first;
     
-    while(equals(previous,n)){
-		list->first = n;
+    while(previous != NULL && equals(previous,n)){
+		list->first = previous->next;
 		previous = previous->next;
     }
+   
+    if(previous != NULL)
+    { 
+        emailNode * current = previous->next;
     
-    emailNode * current = previous->next;
-    
-    while(current) {
-		if(equals(current,n)) {
-			previous->next = current->next;
-			break;
-		}
-        previous = current;
-        current = current->next;
+        while(current) {
+    		if(equals(current,n)) {
+    			previous->next = current->next;
+    			break;
+    		}
+            previous = current;
+            current = current->next;
+        }
     }
 }
 
@@ -122,24 +125,27 @@ void removeAll(emailList * list, emailNode * n)
 {
     emailNode * previous = list->first;
     
-    while(equals(previous,n)){
-		list->first = n;
+    while(previous != NULL && equals(previous,n)){
+		list->first = previous->next;
 		previous = previous->next;
     }
     
-    emailNode * current = previous->next;
-    
-    while(current) 
+    if(previous != NULL)
     {
-		if(equals(current,n)) 
-		{
-			previous->next = current->next;
-		}
-		else 
-		{
-			previous = current;
-		}
-        current = current->next;
+        emailNode * current = previous->next;
+    
+        while(current) 
+        {
+	    	if(equals(current,n)) 
+    		{
+			    previous->next = current->next;
+		    }
+	    	else 
+    		{
+			    previous = current;
+		    }
+            current = current->next;
+        }
     }
 }
 
@@ -169,8 +175,17 @@ void insert(emailList * list, string name, string subject, string body)
 		    
 					removeAll(list,remNode);
 				}
-				list->last->next = n;
-				list->last = n;
+
+                if(list->first == NULL)
+                {
+                    list->first = n;
+                    list->last = n;
+                }
+                else
+                {
+				    list->last->next = n;
+				    list->last = n;
+                }
 			}
 		}
     }
@@ -307,10 +322,9 @@ int main(int argc, const char * argv[])
 				string name = before(line,"\t");
 				string subject = before(after(line,"\t"), "\t");
 				string body = after(after(line, "\t"),"\t");
-				insert(e, name, subject, body);
+                insert(e, name, subject, body);
 			}
 		}
-        
         emailList * list = getGrouped(e);
     
 		insert(f,list);

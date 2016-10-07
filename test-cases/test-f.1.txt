@@ -1,0 +1,12 @@
+Marie	ice-cream	strawberry
+Linda	ice-cream	chocolate
+Chris	ice-cream	vanilla
+Marie	ice-cream-cancellation	strawberry
+Sara	milk-shake	vanilla
+Meriem	ice-cream	lemon
+Ayoub	milk-shake	chocolate
+Younes	soft-cookies	vanilla
+Sophie	sweeties	sweeties
+Lisa	milk-shake	strawberry
+Ayoub	milk-shake-cancellation	vanilla
+Cristos	sweeties-cancellation	sweeties

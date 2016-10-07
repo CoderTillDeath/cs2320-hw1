@@ -1,0 +1,4 @@
+# special case of canceling a p.o. with a revise that is not relevant
+Captain	Approve-purchase-order	AIRPLANE-0011
+Hulk	Purchase-order-revise	AIRPLANE-1100
+Hulk	Purchase-order-cancellation	AIRPLANE-0011

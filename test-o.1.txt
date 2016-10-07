@@ -1,0 +1,4 @@
+# special case of canceling a p.o. with a revise that is not relevant
+Thor	Approve-purchase-order	HAMMER-0011
+Natasha	Purchase-order-revise	HAMMER-0011
+Natasha	Purchase-order-cancellation	HAMMER-0011

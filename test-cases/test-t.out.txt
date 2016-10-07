@@ -1,0 +1,10 @@
+Loki	Invoice	GARAGE-1203, GARAGE-1205, LIBRARY-3034
+Mel	Approve-reservation	7634
+Ada	Approve-reservation	7658, 76964
+June	Approve-seven	N208, N209
+Anna	Invoice	CENTER-7304(Cancelled)
+Alexis	Invoice	LIBRARY-3030, LIBRARY-2980(Cancelled)
+Melissa	Approve-purchase-order	Q-9077, Q-9078
+June	Invoice	CENTER-7294
+Mel	Invoice	CENTER-7343
+Monalisa	Purchase-order-cancellation	Q-9076

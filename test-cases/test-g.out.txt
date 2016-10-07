@@ -1,0 +1,9 @@
+Coulson	resurrection	movie
+May	fight	mission
+Ward	role	traitor
+Quake	agent	earthquake
+Fitz	specialty	technology
+Jemma	specialty	biochemistry
+Hunter	agent	mercenary
+Bobbi	agent	undercover
+Mack	new	director
